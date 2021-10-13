@@ -1,21 +1,79 @@
 import React, { useState, useEffect } from "react";
 import CreateForm from "../components/createForm";
 import { useHistory } from "react-router-dom";
+import { validator } from "../utils/validator";
 
 const Create = () => {
-  const history = useHistory();
   const [data, setData] = useState({
     name: "",
     surname: "",
     date: "",
     portfolio: "",
   });
+  const [errors, setErrors] = useState({});
+
+  const history = useHistory();
+  const handleGoToUser = () => {
+    history.replace("/");
+  };
+
+  const validatorConfig = {
+    name: {
+      isRequired: {
+        message: "поле должно быть заполнено",
+      },
+      isSymbol: {
+        message: "Имя должно состоять из букв",
+      },
+    },
+    surname: {
+      isRequired: {
+        message: "поле должно быть заполнено",
+      },
+      isSymbol: {
+        message: "Фамилия должна состоять из букв",
+      },
+    },
+    date: {
+      isRequired: {
+        message: "поле должно быть заполнено",
+      },
+      isCurrentYear: {
+        message: "дата рождения должна быть меньше текущего года",
+      },
+      minDigit: {
+        message: "дата рождения состоит из 4-х цифр",
+      },
+    },
+    portfolio: {
+      isRequired: {
+        message: "поле должно быть заполнено",
+      },
+      isUrl: {
+        message: "Должно быть заполнено в формате ссылки",
+      },
+    },
+  };
 
   useEffect(() => {
     if (localStorage.length > 0) {
-      setData(localStorage);
+      let dataStorage = {};
+      Object.keys(data).forEach((key) => {
+        dataStorage[key] = localStorage.getItem(key);
+      });
+      setData(dataStorage);
     }
   }, []);
+
+  useEffect(() => {
+    validate();
+  }, [data]);
+
+  const validate = () => {
+    const errors = validator(data, validatorConfig);
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
   const handleChange = ({ target }) => {
     setData((prevState) => ({
       ...prevState,
@@ -24,10 +82,13 @@ const Create = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    const isValidate = validate();
+    if (!isValidate) return;
     Object.keys(data).forEach((key) => {
       localStorage.setItem(key, data[key]);
     });
     alert("Данные обновлены");
+    handleGoToUser();
   };
   return (
     <div className="container mt-5">
@@ -36,6 +97,8 @@ const Create = () => {
           data={data}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
+          handleGoToUser={handleGoToUser}
+          errors={errors}
         />
       </div>
     </div>

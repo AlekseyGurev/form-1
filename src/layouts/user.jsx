@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { getDate } from "../utils/getDate";
+import { useHistory } from "react-router-dom";
 
 const User = () => {
   const [data, setData] = useState({
@@ -8,6 +9,11 @@ const User = () => {
     date: "",
     portfolio: "",
   });
+
+  const history = useHistory();
+  const handleEdit = () => {
+    history.replace("/create");
+  };
 
   useEffect(() => {
     if (localStorage.length > 0) {
@@ -31,7 +37,7 @@ const User = () => {
               </p>
               <p className="fs-4">
                 Дата рождения:
-                <span className="fw-bold"> {data.date}</span>
+                <span className="fw-bold">{getDate(data.date)}</span>
               </p>
               <p className="fs-4">
                 Портфолио:
@@ -43,11 +49,9 @@ const User = () => {
           ) : (
             <p>нет данных</p>
           )}
-          <Link to="/create">
-            <button className="btn btn-primary" onClick>
-              {localStorage.length > 0 ? "Редактировать" : "Добавить"}
-            </button>
-          </Link>
+          <button className="btn btn-primary" onClick={handleEdit}>
+            {localStorage.length > 0 ? "Редактировать" : "Добавить"}
+          </button>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
           onChange={onChange}
           className={getInputClasses()}
         />
+        {error && <div className="invalid-feedback">{error}</div>}
       </div>
     </div>
   );
