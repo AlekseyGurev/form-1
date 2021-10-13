@@ -56,7 +56,7 @@ const Create = () => {
   };
 
   useEffect(() => {
-    if (localStorage.length > 0) {
+    if (localStorage.getItem("user") === "true") {
       let dataStorage = {};
       Object.keys(data).forEach((key) => {
         dataStorage[key] = localStorage.getItem(key);
@@ -87,6 +87,7 @@ const Create = () => {
     Object.keys(data).forEach((key) => {
       localStorage.setItem(key, data[key]);
     });
+    localStorage.setItem("user", true);
     alert("Данные обновлены");
     handleGoToUser();
   };

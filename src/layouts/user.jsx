@@ -16,7 +16,7 @@ const User = () => {
   };
 
   useEffect(() => {
-    if (localStorage.length > 0) {
+    if (localStorage.getItem("user") === "true") {
       setData(localStorage);
     }
   }, []);
@@ -25,7 +25,7 @@ const User = () => {
       <div className="row">
         <div className="col-md-6 offset-md-3 shadow p-4">
           <h3 className="mb-4">Карточка пользователя</h3>
-          {localStorage.length > 0 ? (
+          {localStorage.getItem("user") === "true" ? (
             <>
               <p className="fs-4">
                 Имя:
@@ -50,7 +50,9 @@ const User = () => {
             <p>нет данных</p>
           )}
           <button className="btn btn-primary" onClick={handleEdit}>
-            {localStorage.length > 0 ? "Редактировать" : "Добавить"}
+            {localStorage.getItem("user") === "true"
+              ? "Редактировать"
+              : "Добавить"}
           </button>
         </div>
       </div>
