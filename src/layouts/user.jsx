@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getDate } from "../utils/getDate";
 import { useHistory } from "react-router-dom";
+import { statusUser } from "../utils/statusUser";
 
 const User = () => {
   const [data, setData] = useState({
@@ -16,7 +17,7 @@ const User = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user") === "true") {
+    if (statusUser()) {
       setData(localStorage);
     }
   }, []);
@@ -25,7 +26,7 @@ const User = () => {
       <div className="row">
         <div className="col-md-6 offset-md-3 shadow p-4">
           <h3 className="mb-4">Карточка пользователя</h3>
-          {localStorage.getItem("user") === "true" ? (
+          {statusUser() ? (
             <>
               <p className="fs-4">
                 Имя:
@@ -50,9 +51,7 @@ const User = () => {
             <p>нет данных</p>
           )}
           <button className="btn btn-primary" onClick={handleEdit}>
-            {localStorage.getItem("user") === "true"
-              ? "Редактировать"
-              : "Добавить"}
+            {statusUser() ? "Редактировать" : "Добавить"}
           </button>
         </div>
       </div>

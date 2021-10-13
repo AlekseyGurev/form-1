@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CreateForm from "../components/createForm";
 import { useHistory } from "react-router-dom";
 import { validator } from "../utils/validator";
+import { statusUser } from "../utils/statusUser";
 
 const Create = () => {
   const [data, setData] = useState({
@@ -56,7 +57,7 @@ const Create = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user") === "true") {
+    if (statusUser()) {
       let dataStorage = {};
       Object.keys(data).forEach((key) => {
         dataStorage[key] = localStorage.getItem(key);
