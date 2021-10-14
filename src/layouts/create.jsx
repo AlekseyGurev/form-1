@@ -58,11 +58,7 @@ const Create = () => {
 
   useEffect(() => {
     if (statusUser()) {
-      let dataStorage = {};
-      Object.keys(data).forEach((key) => {
-        dataStorage[key] = localStorage.getItem(key);
-      });
-      setData(dataStorage);
+      setData(JSON.parse(localStorage.getItem("user")));
     }
   }, []);
 
@@ -85,10 +81,7 @@ const Create = () => {
     e.preventDefault();
     const isValidate = validate();
     if (!isValidate) return;
-    Object.keys(data).forEach((key) => {
-      localStorage.setItem(key, data[key]);
-    });
-    localStorage.setItem("user", true);
+    localStorage.setItem("user", JSON.stringify(data));
     alert("Данные обновлены");
     handleGoToUser();
   };

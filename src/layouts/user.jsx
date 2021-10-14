@@ -18,7 +18,7 @@ const User = () => {
 
   useEffect(() => {
     if (statusUser()) {
-      setData(localStorage);
+      setData(JSON.parse(localStorage.getItem("user")));
     }
   }, []);
   return (
